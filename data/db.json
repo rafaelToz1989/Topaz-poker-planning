@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Primeira tarefa",
+      "result": "1",
+      "votes": []
+    },
+    {
+      "id": "2",
+      "title": "Rafael Tozi",
+      "result": "2",
+      "votes": []
+    },
+    {
+      "id": "3",
+      "title": "Joãozinho",
+      "result": "8",
+      "votes": []
+    }
+  ]
+}
