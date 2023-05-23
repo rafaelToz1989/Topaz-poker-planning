@@ -1,5 +1,16 @@
+import { User } from '../../contexts/PlanningPokerContext'
 import { Task } from '../../reducers/planningPoker/reducers'
 import api from '../axiosConfig'
+
+async function createUser(user: User) {
+  const response = await api.put('/user', user)
+  return response
+}
+
+async function retrieveUserName() {
+  const response = await api.get('/user')
+  return response
+}
 
 async function retrieveTasks() {
   const response = await api.get('/tasks')
@@ -20,4 +31,11 @@ async function deleteTask(itemList: Task) {
   await api.delete(`/tasks/${itemList.id}`)
 }
 
-export { retrieveTasks, addTaskToRequestList, updateTaskList, deleteTask }
+export {
+  createUser,
+  retrieveUserName,
+  retrieveTasks,
+  addTaskToRequestList,
+  updateTaskList,
+  deleteTask,
+}

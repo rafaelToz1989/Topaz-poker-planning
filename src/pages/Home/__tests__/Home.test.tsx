@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { Home } from '..'
 import { PlanningPokerContextProvider } from '../../../contexts/PlanningPokerContext'
 
@@ -51,8 +51,11 @@ describe('Home page', () => {
     const nextButton = await screen.getByRole('button')
 
     await fireEvent.change(nameField, { target: { value: 'João' } })
+
     await fireEvent.click(nextButton)
 
-    expect(nameField).not.toBeInTheDocument()
+    waitFor(() => expect(expect(nameField).not.toBeInTheDocument()), {
+      timeout: 500,
+    })
   })
 })

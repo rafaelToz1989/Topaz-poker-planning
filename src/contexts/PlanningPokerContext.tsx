@@ -7,6 +7,10 @@ import {
   updateTaskAction,
 } from '../reducers/planningPoker/actions'
 
+export interface User {
+  userName: string
+}
+
 interface PlanningPokerProviderProps {
   children: ReactNode
 }

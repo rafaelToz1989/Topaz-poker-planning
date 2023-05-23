@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect, useState } from 'react'
 import {
   ButtonRegisterVoteSelected,
   Card,
@@ -9,14 +10,22 @@ import {
 import { PlanningPokerContext } from '../../contexts/PlanningPokerContext'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Task } from '../../reducers/planningPoker/reducers'
-import { updateTaskList } from '../../api/requests/requests'
+import {
+  getUserNamefromListApi,
+  registerUpdateVoteOnApi,
+} from '../../utils/ApiDataResponse'
 
 export function VotingCards() {
   const [voteRegister, setVoteRegister] = useState('')
   const [voteFinished, setVoteFinished] = useState(false)
 
-  const { tasks, userName, addNewTaskItemToState, updateTaskItem } =
-    useContext(PlanningPokerContext)
+  const {
+    tasks,
+    userName,
+    addNewTaskItemToState,
+    updateTaskItem,
+    createUserName,
+  } = useContext(PlanningPokerContext)
 
   const voteGradeOptions = ['0.5', '1', '2', '3', '5', '8']
 
@@ -25,11 +34,9 @@ export function VotingCards() {
 
   const taskIndexData = tasks?.find((task) => task.id === id) as Task
 
-  function registerUpdateVoteOnApi(newTaskObject: Task) {
-    const dataResponse = updateTaskList(newTaskObject).then((res) => res.data)
-
-    return dataResponse
-  }
+  useEffect(() => {
+    getUserNamefromListApi(createUserName)
+  }, [])
 
   function handleVoteRegister(voteGrade: string) {
     const newTaskObject = {
@@ -37,9 +44,7 @@ export function VotingCards() {
       votes: [{ user: userName, vote: Number(voteGrade) }],
     }
 
-    registerUpdateVoteOnApi(newTaskObject).then((data) => {
-      addNewTaskItemToState(data)
-    })
+    registerUpdateVoteOnApi(newTaskObject, addNewTaskItemToState)
 
     setVoteRegister(voteGrade)
   }
@@ -54,9 +59,7 @@ export function VotingCards() {
         votes: [],
       }
 
-      registerUpdateVoteOnApi(deletedVoteTaskObject).then((data) => {
-        updateTaskItem(data)
-      })
+      registerUpdateVoteOnApi(deletedVoteTaskObject, updateTaskItem)
     }
   }
 

@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { PlanningPokerContext } from '../../contexts/PlanningPokerContext'
 import { useNavigate } from 'react-router-dom'
+import { saveUserNameDataOnAPI } from '../../utils/ApiDataResponse'
 
 const userNameValidationSchema = zod.object({
   name: zod.string().min(3, 'Digite um nome válido'),
@@ -31,7 +32,8 @@ export function Home() {
   function handleCreateUserName(data: userNameFormData) {
     const { name } = data
 
-    createUserName(name)
+    saveUserNameDataOnAPI(name, createUserName)
+
     navigate('/task')
   }
 

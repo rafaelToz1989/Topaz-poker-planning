@@ -6,10 +6,7 @@ import {
   useEffect,
   useState,
 } from 'react'
-import {
-  retrieveTasks,
-  addTaskToRequestList,
-} from '../../api/requests/requests'
+import { addTaskToRequestList } from '../../api/requests/requests'
 import { PlanningPokerContext } from '../../contexts/PlanningPokerContext'
 import { Task } from '../../reducers/planningPoker/reducers'
 import {
@@ -24,25 +21,21 @@ import {
 } from './TaskList.styles'
 import { NavLink } from 'react-router-dom'
 import { Plus } from 'phosphor-react'
+import {
+  getDatafromListApi,
+  getUserNamefromListApi,
+} from '../../utils/ApiDataResponse'
 
 export function TaskList() {
   const [isAddingTask, setIsAddingTask] = useState(false)
   const [taskTitleField, setTaskTitleField] = useState('')
 
-  const { reloadAllTasks, tasks, userName } = useContext(PlanningPokerContext)
-
-  function getDatafromListApi() {
-    const dataResponse = retrieveTasks()
-
-    dataResponse.then((res) => {
-      const result = res.data
-
-      reloadAllTasks(result)
-    })
-  }
+  const { reloadAllTasks, tasks, userName, createUserName } =
+    useContext(PlanningPokerContext)
 
   useEffect(() => {
-    getDatafromListApi()
+    getDatafromListApi(reloadAllTasks)
+    getUserNamefromListApi(createUserName)
   }, [])
 
   function addNewTask() {
@@ -60,7 +53,7 @@ export function TaskList() {
 
     setTaskTitleField('')
 
-    getDatafromListApi()
+    getDatafromListApi(reloadAllTasks)
   }
 
   function handleTaskTitleField(e: ChangeEvent<HTMLInputElement>) {

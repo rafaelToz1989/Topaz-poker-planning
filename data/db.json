@@ -1,9 +1,12 @@
 {
+  "user": {
+    "userName": ""
+  },
   "tasks": [
     {
       "id": "1",
       "title": "Primeira tarefa",
-      "result": "",
+      "result": "2",
       "votes": []
     }
   ]
